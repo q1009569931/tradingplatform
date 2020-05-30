@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>我的信息</title>
+    {% load static %}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-------------jquery库-------------->
+  	<script type="text/javascript" src="{% static 'js/jquery-1.7.2.min.js' %}"></script>
+	<!-------------Amazeui--------------->
+    <!-- <script type="text/javascript" src="js/amazeui.js"></script> -->
+    <!-- <link rel="stylesheet" type="text/css" href="css/amazeui.css"> -->
+    <!------------核心样式-------------->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user.css' %}">
+</head>
+<body>
+
+<!-------------------版头------------------->
+<div id="header">
+    <div class="cw1000">
+        <!-------------------logo------------------->
+        <div class="logo"><a title="" href="index.html"><img alt="" src="images/logo.jpg" /></a></div>
+		<!-------------------导航------------------->
+		<div class="nav">
+			<ul>
+				<li><a title="" href="/home/">首页</a><span>|</span></li>
+				<li><a title="" href="{% url 'product' %}?keyword=all">手机卖场</a></li>
+				<div class="clear"></div>
+			</ul>
+		</div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!-----------------用户banner---------------->
+<div id="user_banner">
+	<div class="pic">
+		<a href="my_head.html">
+			<img src="{% static 'img/default_head.jpg' %}"/>
+			<div>更换头像</div>
+		</a>
+	</div>
+	<div class="con">
+		{% if user.first_name %}
+		<h2>{{ user.first_name }}({{ user.username }})</h2>
+		{% else %}
+		<h2>{{ user.username }}</h2>
+		{% endif %}
+	</div>
+</div>
+<!-----------------快捷导航---------------->
+<div id="quick_nav">
+	<a href="{% url 'userhome' %}"><span class="ico1"><img src="{% static 'img/nav_ico1.png' %}"/></span>个人主页</a>
+	<a href="{% url 'publish' %}"><span class="ico2"><img src="{% static 'img/nav_ico2.png' %}"/></span>发布商品</a>
+	<a href="#"><span class="ico7"><img src="{% static 'img/nav_ico7.png' %}"/></span>我的发布</a>
+	<a href="{% url 'collection' %}"><span class="ico3"><img src="{% static 'img/nav_ico3.png' %}"/></span>我的收藏</a>
+	<a href="#"><span class="ico4"><img src="{% static 'img/nav_ico4.png' %}"/></span>商品订单</a>
+	<a href="{% url 'address' %}"><span class="ico6"><img src="{% static 'img/nav_ico5.png' %}"/></span>我的地址</a>
+	<a href="#"><span class="ico5"><img src="{% static 'img/nav_ico6.png' %}"/></span>退出登录</a>
+</div>
+<!-----------------框架---------------->
+<div class="cw1000">
+	<form action="{% url 'publish' %}" method="post" enctype="multipart/form-data" class="white-pink">
+		{% csrf_token %}
+		<h1>发布商品
+			<span>以下各项信息不可留空，请如实填写哦！</span>
+		</h1>
+		<label>
+			<span>品牌 :</span>
+			<input id="pname" type="text" name="brand" placeholder="如“小米”" />
+		</label>
+		<label>
+			<span>子品牌 :</span>
+			<input id="pname" type="text" name="brand_sub" placeholder="如“红米”，没有可空" />
+		</label>
+		<label>
+			<span>型号 :</span>
+			<input id="pname" type="text" name="model" placeholder="如“红米4”" />
+		</label>
+		<label>
+			<span>价格 :</span>
+			<input id="pname" type="text" name="price" placeholder="填数字，可到小数点后两位" />
+		</label>
+
+		<label>
+			<span>详细描述 :</span>
+			<textarea id="message" name="detail" placeholder="填写详细描述"></textarea>
+		</label>
+		<label>
+			<span>封面图片(1张) :</span>
+			<input id="main_image" type="file" name="main_image" accept="image/*"/>
+		</label>
+		<output id="mainlist"></output>
+		<label>
+			<span>详情图片(最多3张) :</span>
+			<input id="sub_image" type="file" name="sub_image[]" accept="image/*" multiple />
+		</label>
+		<output id="sublist"></output>
+		<label>
+			<span>&nbsp;</span>
+			<input type="submit" class="button" value="Send" />
+		</label>
+	</form>
+</div>
+<!-----------------版底---------------->
+<div id="footer">
+	<p>Zhiqi文化旅游发展有限公司 版权所有</p>
+	<p>Copyright 2019 zhiqi All Rights Reserved | 豫ICP备00000000号　技术支持：zhiqi</p>
+</div>
+</body>
+<script type="text/javascript" src="{% static 'js/productpublish.js' %}"></script>
+</html>

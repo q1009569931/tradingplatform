@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>我的信息</title>
+    {% load static %}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-------------jquery库-------------->
+  	<script type="text/javascript" src="{% static 'js/jquery-1.7.2.min.js' %}"></script>
+	<!-------------Amazeui--------------->
+    <!-- <script type="text/javascript" src="js/amazeui.js"></script> -->
+    <!-- <link rel="stylesheet" type="text/css" href="css/amazeui.css"> -->
+    <!------------核心样式-------------->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user.css' %}">
+</head>
+<body>
+
+<!-------------------版头------------------->
+<div id="header">
+    <div class="cw1000">
+        <!-------------------logo------------------->
+        <div class="logo"><a title="" href="index.html"><img alt="" src="images/logo.jpg" /></a></div>
+		<!-------------------导航------------------->
+		<div class="nav">
+			<ul>
+				<li><a title="" href="/home/">首页</a><span>|</span></li>
+				<li><a title="" href="{% url 'product' %}?keyword=all">手机卖场</a></li>
+				<div class="clear"></div>
+			</ul>
+		</div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!-----------------用户banner---------------->
+<div id="user_banner">
+	<div class="pic">
+		<a href="my_head.html">
+			<img src="{% static 'img/default_head.jpg' %}"/>
+			<div>更换头像</div>
+		</a>
+	</div>
+	<div class="con">
+		{% if user.first_name %}
+		<h2>{{ user.first_name }}({{ user.username }})</h2>
+		{% else %}
+		<h2>{{ user.username }}</h2>
+		{% endif %}
+	</div>
+</div>
+<!-----------------快捷导航---------------->
+<div id="quick_nav">
+	<a href="{% url 'userhome' %}"><span class="ico1"><img src="{% static 'img/nav_ico1.png' %}"/></span>个人主页</a>
+	<a href="{% url 'publish' %}"><span class="ico2"><img src="{% static 'img/nav_ico2.png' %}"/></span>发布商品</a>
+	<a href="#"><span class="ico7"><img src="{% static 'img/nav_ico7.png' %}"/></span>我的发布</a>
+	<a href="{% url 'collection' %}"><span class="ico3"><img src="{% static 'img/nav_ico3.png' %}"/></span>我的收藏</a>
+	<a href="#"><span class="ico4"><img src="{% static 'img/nav_ico4.png' %}"/></span>商品订单</a>
+	<a href="{% url 'address' %}"><span class="ico6"><img src="{% static 'img/nav_ico5.png' %}"/></span>我的地址</a>
+	<a href="#"><span class="ico5"><img src="{% static 'img/nav_ico6.png' %}"/></span>退出登录</a>
+</div>
+<!-----------------框架---------------->
+<div class="cw1000">
+	<div class="w280 fl">
+		<div class="public_box">
+			<!-----------------设置导航---------------->
+			<div id="set_nav">
+				<ul>
+					<li><a class="cur" href="my_info.html"><i class="ico1"></i>我的信息</a></li>
+					<li><a href="security.html"><i class="ico4"></i>修改密码</a></li>
+				</ul>
+			</div>
+		</div>	
+	</div>
+	<div class="w700 fr">
+		<div class="public_box">
+			<!-----------------我的信息---------------->
+			<div id="set_box">
+				<div class="title"><h2>我的信息</h2></div>
+				<form action="{% url 'userhome' %}" method="post">
+				{% csrf_token %}
+				<table class="table_list">
+					<tr>
+						<th>昵称：</th>
+						<td><input class="text" type="text" name="first_name" value="{{ user.first_name }}"/></td>
+					</tr>
+					<tr>
+						<th>邮箱：</th>
+						<td><input class="text" type="text" name="email" value="{{ user.email }}"/></td>
+					</tr>
+					<tr>
+						<th>手机号：</th>
+						<td><input type="text" class="text" name="phone" value="{{ user.phone }}"></td>
+					</tr>
+					<tr>
+						<th>支付宝号：</th>
+						{% if user.alipay_id %}
+						<td><p class="p_text">{{ user.alipay_id }}<a href="{% url 'alipayLogin' %}" class="alipay">修改</a></p></td>
+						{% else %}
+						<td><a href="{% url 'alipayLogin' %}" class="alipay">添加</a></td>
+						{% endif %}
+					</tr>
+					<tr>
+						<th>状态：</th>
+						<td><p class="p_text">{{ user.get_status_display }}</p></td>
+					</tr>
+					<tr>
+						<th>注册时间：</th>
+						<td><p class="p_text">{{ create_time }}</p></td>
+					</tr>
+				</table>
+				<div class="operation"><input type="submit" class="save" value="保存" /></div>
+				</form>
+			</div>
+		</div>	
+	</div>
+	<div class="clear"></div>
+</div>
+<!-----------------版底---------------->
+<div id="footer">
+	<p>Zhiqi文化旅游发展有限公司 版权所有</p>
+	<p>Copyright 2019 zhiqi All Rights Reserved | 豫ICP备00000000号　技术支持：zhiqi</p>
+</div>
+</body>
+</html>

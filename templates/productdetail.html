@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>商品详情</title>
+    {% load static %}
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="{% static 'css/header_nav_footer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/commodityDetails.css' %}">
+</head>
+<body>
+    <div class="top">
+        <div class="top_nav">
+            <img class="location" src="{% static 'img/icon_location.png' %}" alt="" width="14px" height="20px">
+            <a class="place" href="">广东</a>
+            <div class="top_nav_right">
+                {% if not user %}
+                <a class="login" href="{% url 'login' %}" id="admin">登录</a>
+                <span>|</span>
+                <a href="{% url 'register' %}">免费注册</a>
+                {% else %}
+                <a href="{% url 'logout' %}">[退出]</a>
+                    {% if user.first_name %}
+                    <a href="{% url 'userhome' %}">{{ user.first_name }}({{ user }})</a>
+                    {% else %}
+                    <a href="{% url 'userhome' %}">{{ user }}</a>
+                    {% endif %}
+                <span>|</span>
+                <a href="/user/collection/">我的收藏</a>
+                {% endif %}
+            </div> 
+        </div>
+    </div>
+    <div class="header">
+        <div class="search">
+            <form action="">
+                <input type="text" name="search" placeholder="输入你想要的商品"><input type="submit" value="">
+            </form>
+        </div> 
+    </div>
+    <div class="nav">
+        <div class="nav_one">
+            <ul class="header_nav">
+                <li><a href="{% url 'home' %}">首页</a></li>
+                <li><a href="{% url 'product' %}?keyword=all">全部手机</a></li>
+                <li><a href="">热门竞拍</a></li>
+                <li><a href="{% url 'publish' %}">我要发布</a></li>
+            </ul>
+        </div>
+        <div class="nav_two">
+        </div>
+    </div>
+    <div class="body">
+        <div class="body_one">
+            <div class="body_one_left">
+                <img src="{{ product.main_image }}" alt="">
+            </div>
+            <div class="body_one_right">
+                <div class="body_one_phone">
+                    <label>品牌：</label>
+                    <span>{{ product.brand }}/{{ product.brand_sub }} </span>
+                </div>
+                <div class="body_one_phone">
+                    <label>型号：</label>
+                    <span>{{ product.model }}</span>
+                </div>
+                <div class="body_one_price">
+                    <label>价格： </label>
+                    <span>¥</span>
+                    <span>{{ product.price }}</span>
+                </div>
+                <div class="body_one_buy">
+                    <a href="{% url 'purchase' %}?pid={{ product.id }}">我要购买</a>
+                    <a href="" id="collect">我要收藏</a>
+                </div>
+                <div class="body_one_seller">
+                    <span>发布者： 
+                    {% if seller.first_name %}
+                        {{ seller.first_name }}({{ seller }})
+                    {% else %}
+                        {{ seller }}
+                    {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="body_two">
+            {% if content == "detail" %}
+            <ul>
+                <li><a href="{% url 'product' %}?pid={{ product.id }}&content=detail" style="background:#E4393C; color:#fff;">商品介绍</a></li>
+                <li><a href="{% url 'product' %}?pid={{ product.id }}&content=image">商品图片</a></li>
+            </ul>
+            {% else %}
+            <ul>
+                <li><a href="{% url 'product' %}?pid={{ product.id }}&content=detail">商品介绍</a></li>
+                <li><a href="{% url 'product' %}?pid={{ product.id }}&content=image" style="background:#E4393C; color:#fff;">商品图片</a></li>
+            </ul>
+            {% endif %}
+
+            {% if content == "detail" %}
+                {{ product.detail }}
+            {% else %}
+                {% for sub_img_url in sub_image %}
+                <img src="{{ sub_img_url }}" alt="" id="sub_image">
+                <br>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="{% static 'js/productdetail.js' %}"></script>
+</html>

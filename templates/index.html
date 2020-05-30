@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>西湖购物百货</title>
+    {% load static %}
+    
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/header_nav_footer.css' %}">
+    <!-- <script src="js/loginChecked.js"></script>  --></head>
+<body>
+    <div class="top">
+        <div class="top_nav">
+            <img class="location" src="{% static 'img/icon_location.png' %}" alt="" width="14px" height="20px">
+            <a class="place" href="">广东</a>
+            <div class="top_nav_right">
+                {% if not user %}
+                <a class="login" href="{% url 'login' %}" id="admin">登录</a>
+                <span>|</span>
+                <a href="{% url 'register' %}">免费注册</a>
+                {% else %}
+                <a href="{% url 'logout' %}">[退出]</a>
+                    {% if user.first_name %}
+                    <a href="{% url 'userhome' %}">{{ user.first_name }}({{ user }})</a>
+                    {% else %}
+                    <a href="{% url 'userhome' %}">{{ user }}</a>
+                    {% endif %}
+                <span>|</span>
+                <a href="/user/collection/">我的收藏</a>
+                {% endif %}
+            </div>   
+        </div> 
+    </div>
+    <div class="home">
+    <div class="header">
+        <div class="search">
+            <form action="{% url 'product' %}" method="get">
+                <input type="text" name="keyword" placeholder="输入你想要的商品"><input type="submit" value="">
+            </form>
+            <p>
+            </p>
+        </div> 
+    </div>
+    <div class="nav">
+        <ul class="header_nav">
+            <li><a href="{% url 'home' %}">首页</a></li>
+            <li><a href="{% url 'product' %}?keyword=all">全部手机</a></li>
+            <li><a href="">热门竞拍</a></li>
+            <li><a href="{% url 'publish' %}">我要发布</a></li>
+        </ul>
+    </div>
+    <div class="body">
+        <div class="body_one">
+            <!-- 首页轮播图 -->
+            <div class="main_picture">
+                <a href=""> <img src="/static/img/scroll0.jpg" alt="" id="pic"></a>
+                <!-- 序号 -->
+                <ul class="banner_pic" id="banner_pic">
+                    <li class="item">1</li>
+                    <li class="item">2</li>
+                    <li class="item">3</li>
+                    <li class="item">4</li>
+                    <li class="item">5</li>
+                </ul>
+                <a href=""><img src="" alt=""></a>
+                <a href=""><img src="" alt=""></a>
+            </div>
+        </div>
+        <div class="body_two">
+            <img src="" alt="">
+            <h2>限时秒杀</h2>
+            <span>总有不到你想不到的低价</span>
+        </div>
+        <div class="body_three">
+            {% for p in product %}
+            <dl>
+                <dt>
+                    <a href="{% url 'product' %}?pid={{ p.id }}"><img src="{{ p.main_image }}" alt=""></a> 
+                </dt>
+                <dd class="shuoming_3">{{ p.detail }}</dd>
+                <dd class="price_3">
+                    <span class="cny_3">￥</span><span>{{ p.price }}</span>
+                    <del>￥{{ p.price }}</del>
+                </dd>
+            </dl>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="blank"></div>
+    </div>
+    <div class="footer">
+        <div class="footer_first">Author: MOMOJIJY <b>|</b> <a href="https://www.jianshu.com/u/147f81be47f8" target="view_window">Bolg</a></div>
+        <div class="footerline"></div>
+        <div class="footer_last">
+            Copyright © 2020 angelshop. All rights reserved.
+        </div>
+    </div>
+    <!-- <script src="js/countDown.js"></script> -->
+    <!-- 轮播图js -->
+    <!-- <script src="js/banner.js"></script> -->
+    <!-- <script src="./js/oop-banner.js"></script> -->
+    <script type="text/javascript" src="{% static 'js/home.js' %}"></script>
+</body>
+</html>
